@@ -20,8 +20,8 @@ public class BooksService
         _booksCollection = mongoDatabase.GetCollection<Book>(
             bookStoreDatabaseSettings.Value.BooksCollectionName);
     }
-    public async Task<List<Book>> GetAsync(int? price) =>
-        await _booksCollection.Find(book => book.Price > price|| price==null).ToListAsync();
+    public async Task<List<Book>> GetAsync(int price) =>
+        await _booksCollection.Find(book => price == 0 || book.Price > price).ToListAsync();
 
     public async Task<Book?> GetAsync(string id) =>
         await _booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
