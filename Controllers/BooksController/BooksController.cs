@@ -14,20 +14,16 @@ public class BooksController : ControllerBase
         _booksService = booksService;
 
     [HttpGet("{price:int?}")]
-    public async Task<ActionResult<List<Book>>> Get(int? price)
+    public async Task<ActionResult<List<Book>>> Get(int price)
     {
         var books = await _booksService.GetAsync(price);
         if (books.ToArray().Length == 0)
         {
             return NotFound();
         }
-        var bs = from b in books
-                 where b.Price > 3500
-                 select b.Price = 8000;
-        foreach (var b in bs)
-        {
-            Console.WriteLine(b);
-        }
+
+        books.Sort((b1, b2) =>(int) b1.Price - (int)b2.Price);
+
         return books;
 
     }
